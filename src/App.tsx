@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ProtectedLayout from './components/ProtectedLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import ChatWidget from './components/ChatWidget';
 function App() {
   
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/profile" element={<h1>Profile</h1>} />
         </Route>
       </Routes>
+      <ChatWidget />
     </BrowserRouter>
   )
 }
