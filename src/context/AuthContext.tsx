@@ -21,6 +21,7 @@ export const AuthContext= createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [uid, setUid] = useState<string | null>(null);
   const navigate = useNavigate();
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
@@ -43,7 +44,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const login = async (email: string, password: string) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       console.error("Login error:", error);
       throw error;
@@ -63,7 +64,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     setUser(userCredential.user);
-    navigate("/");
+    const uid=userCredential.user.uid;
+    const token = await userCredential.user.getIdToken();
+
+    setToken(token);
+    setUid(uid);
   } catch (error) {
     console.error("Registration error:", error);
     throw error;

@@ -1,16 +1,20 @@
 import React, { useState, useContext } from "react";
-import { Navigate, Link } from "react-router-dom";
+import { Navigate, Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const login = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await login?.login(email, password);
+      // Successful login will redirect via context
+      navigate("/home");
     } catch (error) {
       console.error("Login failed", error);
       alert("Login failed. Please check your credentials and try again.");
@@ -76,6 +80,7 @@ export default function Login() {
               <button
                 type="submit"
                 className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition"
+                
               >
                 Login
               </button>

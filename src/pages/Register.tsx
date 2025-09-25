@@ -1,14 +1,16 @@
 import { useState, useContext} from "react";
-import { Navigate, Link } from "react-router-dom";
+import { Navigate, Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const register = useContext(AuthContext);
+  const navigate = useNavigate();
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await register?.register(email, password);
+      navigate("/ProfileComplete");
     } catch (error) {
       console.error("Registration failed", error);
       alert("Registration failed. Please try again.");
@@ -24,7 +26,7 @@ export default function Register() {
       {/* Panel Derecho */}
       <div className="flex w-full md:w-1/2 items-center justify-center bg-white">
         {register?.user ? (
-          <Navigate to="/" replace />
+          <Navigate to="/ProfileComplete" replace />
         ) : (
           <div className="w-full max-w-md p-8">
             <h2 className="text-3xl font-bold mb-2">Register</h2>
